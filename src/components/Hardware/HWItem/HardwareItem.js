@@ -1,8 +1,20 @@
 import classes from "./HardwareItem.module.css";
 import HardwareItemForm from "./HardwareItemForm";
+import { useContext } from "react";
+import CartContext from "../../../store/cart-context";
 
 const HardwareItem = (props) => {
+  const cartContext = useContext(CartContext);
   const price = `$${props.price.toFixed(2)}`;
+  const addToCardHandler = (amount) => {
+    cartContext.addItem({
+      id: props.id,
+      name: props.name,
+      amount: amount,
+      price: props.price,
+    });
+  };
+
   return (
     //could go with props.meal.xx}
     <li className={classes.hardware}>
@@ -12,7 +24,7 @@ const HardwareItem = (props) => {
         <div className={classes.price}>{price}</div>
       </div>
       <div>
-        <HardwareItemForm />
+        <HardwareItemForm onAddToCart={addToCardHandler} />
       </div>
     </li>
   );
